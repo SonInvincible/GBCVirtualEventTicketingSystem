@@ -1,0 +1,119 @@
+﻿@model IEnumerable<GBC_Ticketing.Models.Event>
+
+@{
+    ViewData["Title"] = "Browse Events";
+}
+
+<h1 class="mb-4">Browse Events</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Search & Filter Events</h5>
+        <form asp-action="Index" method="get">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" 
+                           class="form-control" placeholder="Search by title..." />
+                </div>
+                <div class="col-md-2">
+                    <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="date" name="startDate" value="@ViewData["StartDate"]" 
+                           class="form-control" placeholder="Start Date" />
+                </div>
+                <div class="col-md-2">
+                    <input type="date" name="endDate" value="@ViewData["EndDate"]" 
+                           class="form-control" placeholder="End Date" />
+                </div>
+                <div class="col-md-2">
+                    <select name="availabilityFilter" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="available" selected="@(ViewData["AvailabilityFilter"]?.ToString() == "available")">Available</option>
+                        <option value="soldout" selected="@(ViewData["AvailabilityFilter"]?.ToString() == "soldout")">Sold Out</option>
+                        <option value="low" selected="@(ViewData["AvailabilityFilter"]?.ToString() == "low")">Low Stock</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <strong>Sort by:</strong>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]" 
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-categoryId="@ViewData["CategoryFilter"]"
+                       class="btn btn-sm btn-outline-secondary">Title</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" 
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-categoryId="@ViewData["CategoryFilter"]"
+                       class="btn btn-sm btn-outline-secondary">Date</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]" 
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-categoryId="@ViewData["CategoryFilter"]"
+                       class="btn btn-sm btn-outline-secondary">Price</a>
+                    <a asp-action="Index" class="btn btn-sm btn-outline-danger">Clear Filters</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row g-4">
+    @if (!Model.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                <strong>No events found.</strong> Try adjusting your filters or <a asp-action="Index">view all events</a>.
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm @(item.IsSoldOut ? "border-danger" : item.IsLowTicket ? "border-warning" : "")">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">@item.Title</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <strong>Category:</strong> <span class="badge bg-info">@item.Category?.Name</span><br />
+                            <strong>Date:</strong> @item.EventDate.ToString("MMM dd, yyyy hh:mm tt")<br />
+                            <strong>Price:</strong> $@item.TicketPrice.ToString("0.00")<br />
+                            <strong>Available:</strong> 
+                            @if (item.IsSoldOut)
+                            {
+                                <span class="badge bg-danger">SOLD OUT</span>
+                            }
+                            else if (item.IsLowTicket)
+                            {
+                                <span class="badge bg-warning text-dark">@item.AvailableTickets tickets left!</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">@item.AvailableTickets tickets</span>
+                            }
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="btn-group w-100" role="group">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                            @if (!item.IsSoldOut)
+                            {
+                                <a asp-controller="Purchases" asp-action="Create" asp-route-id="@item.Id" 
+                                   class="btn btn-sm btn-success">Buy Tickets</a>
+                            }
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

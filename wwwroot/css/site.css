@@ -1,0 +1,158 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: #f8f9fa;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 40px 0;
+}
+
+.hero-section h1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Card Hover Effects */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: scale(1.05);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+    transform: scale(1.05);
+}
+
+/* Badge Styles */
+.badge {
+    padding: 0.5em 0.8em;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Table Styles */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Alert Animations */
+.alert {
+    border-radius: 8px;
+    border: none;
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Styles */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Navbar Styles */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+/* Card Header Styles */
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+}
+
+/* Low Ticket Warning */
+.table-warning {
+    background-color: #fff3cd !important;
+}
+
+/* Print Styles */
+@media print {
+    .btn, .navbar, .footer {
+        display: none;
+    }
+
+    body {
+        background: white;
+    }
+}

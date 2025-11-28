@@ -1,0 +1,83 @@
+﻿@model GBC_Ticketing.Models.Event
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<h1 class="mb-4">Event Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">@Model.Title</h2>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Category</dt>
+                    <dd class="col-sm-8"><span class="badge bg-info fs-6">@Model.Category?.Name</span></dd>
+                    
+                    <dt class="col-sm-4">Event Date</dt>
+                    <dd class="col-sm-8">@Model.EventDate.ToString("MMMM dd, yyyy hh:mm tt")</dd>
+                    
+                    <dt class="col-sm-4">Ticket Price</dt>
+                    <dd class="col-sm-8"><strong class="text-success fs-5">$@Model.TicketPrice.ToString("0.00")</strong></dd>
+                    
+                    <dt class="col-sm-4">Available Tickets</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.IsSoldOut)
+                        {
+                            <span class="badge bg-danger fs-6">SOLD OUT</span>
+                        }
+                        else if (Model.IsLowTicket)
+                        {
+                            <span class="badge bg-warning text-dark fs-6">@Model.AvailableTickets tickets left - Hurry!</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success fs-6">@Model.AvailableTickets tickets available</span>
+                        }
+                    </dd>
+                </dl>
+                
+                <hr />
+                
+                <div class="d-grid gap-2">
+                    @if (!Model.IsSoldOut)
+                    {
+                        <a asp-controller="Purchases" asp-action="Create" asp-route-id="@Model.Id" 
+                           class="btn btn-success btn-lg">🎫 Buy Tickets Now</a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-danger btn-lg" disabled>Sold Out</button>
+                    }
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Edit Event</a>
+                    <a asp-action="Index" class="btn btn-outline-primary">Back to Events List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">✏️ Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm bg-light">
+            <div class="card-body">
+                <h6 class="card-title">Event Info</h6>
+                <p class="small mb-1"><strong>Created:</strong> Recently</p>
+                <p class="small mb-0"><strong>Status:</strong> 
+                    @(Model.IsSoldOut ? "Sold Out" : "Available")
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

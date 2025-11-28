@@ -1,0 +1,92 @@
+﻿@model GBC_Ticketing.Models.Purchase
+
+@{
+    ViewData["Title"] = "Purchase Confirmation";
+}
+
+<div class="text-center mb-4">
+    <div class="display-1 text-success">✓</div>
+    <h1 class="text-success">Purchase Successful!</h1>
+    <p class="lead">Thank you for your purchase. Your tickets have been confirmed.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">Purchase Confirmation</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5>Guest Information</h5>
+                        <p class="mb-1"><strong>Name:</strong> @Model.GuestName</p>
+                        <p class="mb-1"><strong>Email:</strong> @Model.GuestEmail</p>
+                        <p class="mb-0"><strong>Purchase Date:</strong> @Model.PurchaseDate.ToString("MMMM dd, yyyy hh:mm tt")</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <h5>Order Summary</h5>
+                        <p class="mb-1"><strong>Order ID:</strong> #@Model.Id.ToString("D6")</p>
+                        <p class="mb-0"><strong class="text-success fs-4">Total: $@Model.TotalCost.ToString("0.00")</strong></p>
+                    </div>
+                </div>
+                
+                <hr />
+                
+                <h5 class="mb-3">Event Details</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Event Title</th>
+                                <th>Category</th>
+                                <th>Event Date</th>
+                                <th>Quantity</th>
+                                <th>Price/Ticket</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PurchaseItems)
+                            {
+                                <tr>
+                                    <td><strong>@item.Event?.Title</strong></td>
+                                    <td><span class="badge bg-info">@item.Event?.Category?.Name</span></td>
+                                    <td>@item.Event?.EventDate.ToString("MMM dd, yyyy")</td>
+                                    <td>@item.Quantity</td>
+                                    <td>$@item.PricePerTicket.ToString("0.00")</td>
+                                    <td><strong>$@((item.Quantity * item.PricePerTicket).ToString("0.00"))</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-success">
+                                <td colspan="5" class="text-end"><strong>Total:</strong></td>
+                                <td><strong class="fs-5">$@Model.TotalCost.ToString("0.00")</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <h5 class="alert-heading">📧 What's Next?</h5>
+                    <ul class="mb-0">
+                        <li>A confirmation email has been sent to <strong>@Model.GuestEmail</strong></li>
+                        <li>Please check your inbox for event details and access information</li>
+                        <li>Add the event to your calendar to get reminders</li>
+                        <li>Contact support if you have any questions</li>
+                    </ul>
+                </div>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-primary btn-lg">Browse More Events</a>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Return to Homepage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <button onclick="window.print()" class="btn btn-outline-primary">🖨️ Print Confirmation</button>
+</div>

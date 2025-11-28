@@ -1,0 +1,41 @@
+﻿@model GBC_Ticketing.Models.Event
+
+@{
+    ViewData["Title"] = "Delete Event";
+}
+
+<h1 class="text-danger mb-4">Delete Event</h1>
+
+<div class="alert alert-danger">
+<h4 class="alert-heading">⚠️ Warning</h4>
+<p>Are you sure you want to delete this event? This action cannot be undone.</p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-danger text-white">
+        <h3 class="mb-0">@Model.Title</h3>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Category</dt>
+            <dd class="col-sm-9">@Model.Category?.Name</dd>
+            
+            <dt class="col-sm-3">Event Date</dt>
+            <dd class="col-sm-9">@Model.EventDate.ToString("MMMM dd, yyyy hh:mm tt")</dd>
+            
+            <dt class="col-sm-3">Ticket Price</dt>
+            <dd class="col-sm-9">$@Model.TicketPrice.ToString("0.00")</dd>
+            
+            <dt class="col-sm-3">Available Tickets</dt>
+            <dd class="col-sm-9">@Model.AvailableTickets</dd>
+        </dl>
+        
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-danger btn-lg">Confirm Delete</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

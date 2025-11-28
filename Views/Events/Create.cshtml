@@ -1,0 +1,80 @@
+﻿@model GBC_Ticketing.Models.Event
+
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<h1 class="mb-4">Create New Event</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" placeholder="Enter event title" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="CategoryId" class="form-label"></label>
+                        <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId">
+                            <option value="">-- Select Category --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="EventDate" class="form-label"></label>
+                        <input asp-for="EventDate" class="form-control" type="datetime-local" />
+                        <span asp-validation-for="EventDate" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="TicketPrice" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="TicketPrice" class="form-control" placeholder="0.00" />
+                            </div>
+                            <span asp-validation-for="TicketPrice" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="AvailableTickets" class="form-label"></label>
+                            <input asp-for="AvailableTickets" class="form-control" type="number" min="0" />
+                            <span asp-validation-for="AvailableTickets" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Create Event</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card shadow-sm bg-light">
+            <div class="card-body">
+                <h5 class="card-title">📝 Tips for Creating Events</h5>
+                <ul class="small">
+                    <li>Use clear, descriptive titles</li>
+                    <li>Set realistic ticket quantities</li>
+                    <li>Double-check date and time</li>
+                    <li>Price tickets competitively</li>
+                    <li>Choose the appropriate category</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

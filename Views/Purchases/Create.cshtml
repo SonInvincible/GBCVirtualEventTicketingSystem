@@ -1,0 +1,121 @@
+﻿@model GBC_Ticketing.Models.Event
+
+@{
+    ViewData["Title"] = "Purchase Tickets";
+}
+
+<h1 class="mb-4">Purchase Tickets</h1>
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Event Details</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">@Model.Title</h3>
+                <p class="card-text">
+                    <strong>Category:</strong> <span class="badge bg-info">@Model.Category?.Name</span><br />
+                    <strong>Date:</strong> @Model.EventDate.ToString("MMMM dd, yyyy hh:mm tt")<br />
+                    <strong>Price per Ticket:</strong> <span class="text-success fs-5">$@Model.TicketPrice.ToString("0.00")</span><br />
+                    <strong>Available:</strong> 
+                    @if (Model.IsLowTicket)
+                    {
+                        <span class="badge bg-warning text-dark">Only @Model.AvailableTickets tickets left!</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">@Model.AvailableTickets tickets</span>
+                    }
+                </p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Purchase Information</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <input type="hidden" name="eventId" value="@Model.Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Number of Tickets</label>
+                        <input type="number" class="form-control form-control-lg" id="quantity" name="quantity" 
+                               min="1" max="@Model.AvailableTickets" value="1" required 
+                               onchange="updateTotal()" />
+                        <div class="form-text">Maximum: @Model.AvailableTickets tickets</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="guestName" class="form-label">Your Name *</label>
+                        <input type="text" class="form-control" id="guestName" name="guestName" 
+                               placeholder="Enter your full name" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="guestEmail" class="form-label">Your Email *</label>
+                        <input type="email" class="form-control" id="guestEmail" name="guestEmail" 
+                               placeholder="your.email@example.com" required />
+                        <div class="form-text">Confirmation will be sent to this email</div>
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="alert alert-info">
+                        <h5>Total Cost: <span id="totalCost" class="text-success">$@Model.TicketPrice.ToString("0.00")</span></h5>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">Complete Purchase</button>
+                        <a asp-controller="Events" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-5">
+        <div class="card shadow-sm bg-light">
+            <div class="card-body">
+                <h5 class="card-title">📋 Purchase Information</h5>
+                <ul class="small">
+                    <li>No account or registration required</li>
+                    <li>Instant confirmation via email</li>
+                    <li>Secure transaction processing</li>
+                    <li>24/7 customer support available</li>
+                </ul>
+                
+                <hr />
+                
+                <h5 class="card-title">✅ What's Included</h5>
+                <ul class="small">
+                    <li>Full access to the virtual event</li>
+                    <li>Event materials and resources</li>
+                    <li>Certificate of attendance (if applicable)</li>
+                    <li>Recording access (event-dependent)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <h6 class="card-title">Need Help?</h6>
+                <p class="small mb-0">Contact us at support@gbcticketing.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateTotal() {
+            var quantity = document.getElementById('quantity').value;
+            var pricePerTicket = @Model.TicketPrice;
+            var total = quantity * pricePerTicket;
+            document.getElementById('totalCost').textContent = '$' + total.toFixed(2);
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

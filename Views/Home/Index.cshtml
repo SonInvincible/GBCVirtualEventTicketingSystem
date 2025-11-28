@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center hero-section">
+    <h1 class="display-3 fw-bold mb-4">Welcome to GBC Ticketing</h1>
+    <p class="lead mb-5">Your Virtual Event Hub - Browse, Book, and Experience Amazing Events</p>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 border-primary">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <span class="display-1">🎭</span>
+                    </div>
+                    <h5 class="card-title">Browse Events</h5>
+                    <p class="card-text">Explore webinars, concerts, workshops, and conferences</p>
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-primary">Explore Now</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <span class="display-1">🎫</span>
+                    </div>
+                    <h5 class="card-title">Quick Purchase</h5>
+                    <p class="card-text">Buy tickets instantly without registration</p>
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-success">Get Tickets</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 border-info">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <span class="display-1">📊</span>
+                    </div>
+                    <h5 class="card-title">Event Overview</h5>
+                    <p class="card-text">View event statistics and alerts</p>
+                    <a asp-controller="Events" asp-action="Overview" class="btn btn-info">View Overview</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-body p-5">
+            <h2 class="mb-4">Why Choose GBC Ticketing?</h2>
+            <div class="row text-start">
+                <div class="col-md-6 mb-3">
+                    <h5>✨ Easy Event Management</h5>
+                    <p>Create, update, and manage virtual events with our intuitive interface</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5>🔍 Smart Search & Filters</h5>
+                    <p>Find events by category, date, price, and availability</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5>⚡ Instant Booking</h5>
+                    <p>Purchase tickets as a guest - no account required</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5>📈 Real-time Updates</h5>
+                    <p>Track ticket availability and get low-stock alerts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

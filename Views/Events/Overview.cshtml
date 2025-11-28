@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GBC_Ticketing.Models.Event>
+
+@{
+    ViewData["Title"] = "Event Overview";
+}
+
+<h1 class="mb-4">Event Overview Dashboard</h1>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary shadow">
+            <div class="card-body text-center">
+                <h2 class="display-4">@ViewBag.TotalEvents</h2>
+                <p class="card-text">Total Events</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success shadow">
+            <div class="card-body text-center">
+                <h2 class="display-4">@ViewBag.TotalCategories</h2>
+                <p class="card-text">Categories</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-warning shadow">
+            <div class="card-body text-center">
+                <h2 class="display-4">@ViewBag.LowTicketCount</h2>
+                <p class="card-text">Low Ticket Alerts</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+        <h4 class="mb-0">⚠️ Events with Low Ticket Availability (Less than 5 tickets)</h4>
+    </div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <p class="text-muted">No events with low ticket availability at this time.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Event Title</th>
+                            <th>Category</th>
+                            <th>Event Date</th>
+                            <th>Available Tickets</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="table-warning">
+                                <td>@item.Title</td>
+                                <td><span class="badge bg-info">@item.Category?.Name</span></td>
+                                <td>@item.EventDate.ToString("MMM dd, yyyy")</td>
+                                <td><span class="badge bg-danger">@item.AvailableTickets</span></td>
+                                <td>$@item.TicketPrice.ToString("0.00")</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">View</a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-outline-primary">Back to Events List</a>
+</div>
